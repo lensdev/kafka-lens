@@ -26,13 +26,13 @@ Edit **src/main/resources/config/application-dev.yml** file
 **Edit the following portion**
 ```
     kafkaConsumer:
-        "[bootstrap.servers]": dfw-appblx097-01.prod.walmart.com:9092,dfw-appblx098-05.prod.walmart.com:9092,dfw-appblx098-06.prod.walmart.com:9092
+        "[bootstrap.servers]": localhost:9092
         "[group.id]": test-1001
         "[enable.auto.commit]": false
         "[auto.commit.interval.ms]": 1000
         "[key.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
         "[value.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
-        "[topic]": os-test-topic
+        "[topic]": test
         "[partitions]": 2
 ```
 
@@ -40,7 +40,7 @@ Edit **src/main/resources/config/application-dev.yml** file
 **Edit the following portion**
 ```
     kafkaProducer:
-        "[bootstrap.servers]": dfw-appblx097-01.prod.walmart.com:9092,dfw-appblx098-05.prod.walmart.com:9092,dfw-appblx098-06.prod.walmart.com:9092
+        "[bootstrap.servers]": localhost:9092
         "[acks]": 1
         "[retries]": 0
         "[batch.size]": 16384
@@ -48,7 +48,7 @@ Edit **src/main/resources/config/application-dev.yml** file
         "[buffer.memory]": 33554432
         "[key.serializer]": org.apache.kafka.common.serialization.StringSerializer
         "[value.serializer]": org.apache.kafka.common.serialization.StringSerializer
-        "[topic]": os-test-topic
+        "[topic]": test
 ```
 
 ---
@@ -62,7 +62,7 @@ Edit **src/main/resources/config/application-dev.yml** file
 ---
 
 ## Feedback/Suggestions
-**apattanaik@walmartlabs.com**
+**amaresh.pat@gmail.com**
 
 **Thank You!!**
 
