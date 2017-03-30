@@ -1,0 +1,64 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myKafkaeventLabel">Create or edit a Kafkaevent</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.kafkaevent.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.kafkaevent.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_kafkakey">Kafkakey</label>
+            <input type="text" class="form-control" name="kafkakey" id="field_kafkakey"
+                    ng-model="vm.kafkaevent.kafkakey"
+                    />
+        </div>
+        <!--
+        <div class="form-group">
+            <label class="control-label" for="field_kpartition">Kpartition</label>
+            <input type="number" class="form-control" name="kpartition" id="field_kpartition"
+                    ng-model="vm.kafkaevent.kpartition"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_koffset">Koffset</label>
+            <input type="number" class="form-control" name="koffset" id="field_koffset"
+                    ng-model="vm.kafkaevent.koffset"
+                    />
+        </div>
+        -->
+        <div class="form-group">
+            <label class="control-label" for="field_body">Body</label>
+            <input type="text" class="form-control" name="body" id="field_body"
+                    ng-model="vm.kafkaevent.body"
+                    />
+        </div>
+        <!--
+        <div class="form-group">
+            <label class="control-label" for="field_eventtime">Eventtime</label>
+                <div class="input-group">
+                    <input id="field_eventtime" type="text" class="form-control" name="eventtime" uib-datepicker-popup="{{dateformat}}" ng-model="vm.kafkaevent.eventtime" is-open="vm.datePickerOpenStatus.eventtime"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('eventtime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        -->
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

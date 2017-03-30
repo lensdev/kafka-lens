@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span>Kafkaevent</span> {{vm.kafkaevent.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row jh-entity-details">
+        <dt><span>Kafkakey</span></dt>
+        <dd>
+            <span>{{vm.kafkaevent.kafkakey}}</span>
+        </dd>
+        <dt><span>Kpartition</span></dt>
+        <dd>
+            <span>{{vm.kafkaevent.kpartition}}</span>
+        </dd>
+        <dt><span>Koffset</span></dt>
+        <dd>
+            <span>{{vm.kafkaevent.koffset}}</span>
+        </dd>
+        <dt><span>Body</span></dt>
+        <dd>
+            <span>{{vm.kafkaevent.body}}</span>
+        </dd>
+        <dt><span>Eventtime</span></dt>
+        <dd>
+            <span>{{vm.kafkaevent.eventtime | date:'mediumDate'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="kafkaevent-detail.edit({id:vm.kafkaevent.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "kafkakey",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "kpartition",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "koffset",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "body",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "eventtime",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "changelogDate": "20170330204927",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "kafkaevent",
+    "pagination": "pagination"
+}
