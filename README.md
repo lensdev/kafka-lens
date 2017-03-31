@@ -12,6 +12,15 @@ This is a handy tool for Kafka. It has the following prominent features -
 
 # How to use the tool
 
+# Setup
+## Run a local Kafka cluster
+https://kafka.apache.org/documentation/#quickstart
+
+## Run a local MySql server
+https://dev.mysql.com/doc/mysql-getting-started/en/
+
+Start MySql and create a new database called kafka
+
 ## Edit the config file
 Edit **src/main/resources/config/application-dev.yml** file
 
@@ -33,7 +42,8 @@ Edit **src/main/resources/config/application-dev.yml** file
         "[key.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
         "[value.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
         "[topic]": test
-        "[partitions]": 2
+        "[partitions]": 1
+        "[threads]": 1
 ```
 
 ## Kafka Producer Details
