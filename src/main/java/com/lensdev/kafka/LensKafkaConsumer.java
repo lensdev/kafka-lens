@@ -56,21 +56,23 @@ public class LensKafkaConsumer implements Runnable {
                 //Thread.sleep(1000L);
                 if(records.count() > 0) {
                     for (ConsumerRecord<String, String> record : records) {
-                        logger.info("Received message: key: {}, value: {}", record.key(), record.value());
-                        List<Kafkaevent> kafkaeventList = repository.findByKafkakey(record.key());
-                        if(kafkaeventList != null && kafkaeventList.size() > 0) {
-                            continue;
+                        if(record.value().contains("orders-lookup")) {
+                            logger.info("Received message: key: {}, value: {}", record.key(), record.value());
+                            List<Kafkaevent> kafkaeventList = repository.findByKafkakey(record.key());
+                            if(kafkaeventList != null && kafkaeventList.size() > 0) {
+                                continue;
+                            }
+                            Kafkaevent kafkaevent = new Kafkaevent();
+                            kafkaevent.setKafkakey(record.key());
+                            kafkaevent.setKpartition(record.partition());
+                            kafkaevent.setKoffset(record.offset());
+                            kafkaevent.setBody(record.value());
+                            Instant instant = Instant.ofEpochMilli(record.timestamp());
+                            ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant( instant, ZONE );
+                            kafkaevent.setEventtime(zonedDateTime);
+                            this.repository.save(kafkaevent);
+                            this.kafkaeventSearchRepository.save(kafkaevent);
                         }
-                        Kafkaevent kafkaevent = new Kafkaevent();
-                        kafkaevent.setKafkakey(record.key());
-                        kafkaevent.setKpartition(record.partition());
-                        kafkaevent.setKoffset(record.offset());
-                        kafkaevent.setBody(record.value());
-                        Instant instant = Instant.ofEpochMilli(record.timestamp());
-                        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant( instant, ZONE );
-                        kafkaevent.setEventtime(zonedDateTime);
-                        this.repository.save(kafkaevent);
-                        this.kafkaeventSearchRepository.save(kafkaevent);
                     }
                 }
             } catch (Exception e) {

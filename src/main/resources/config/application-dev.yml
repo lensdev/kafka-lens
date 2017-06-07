@@ -137,13 +137,13 @@ jhipster:
 
 application:
     kafkaConsumer:
-        "[bootstrap.servers]": localhost:9092
+        "[bootstrap.servers]": dal-kafka-broker.bfd.walmart.com:80
         "[group.id]": test-1001
         "[enable.auto.commit]": false
         "[auto.commit.interval.ms]": 1000
         "[key.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
         "[value.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
-        "[topic]": test
+        "[topic]": logmon.rawlog
         "[partitions]": 1
         "[threads]": 1
     kafkaProducer:
