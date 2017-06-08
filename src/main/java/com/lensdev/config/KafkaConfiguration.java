@@ -4,8 +4,11 @@ import com.lensdev.kafka.LensKafkaConsumer;
 import com.lensdev.kafka.LensKafkaProducer;
 import com.lensdev.repository.KafkaeventRepository;
 import com.lensdev.repository.search.KafkaeventSearchRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,11 +20,11 @@ import java.util.Map;
 
 
 @Configuration
-@AutoConfigureAfter(value = { MetricsConfiguration.class, WebConfigurer.class, DatabaseConfiguration.class })
+@AutoConfigureBefore(value = { MetricsConfiguration.class, WebConfigurer.class, DatabaseConfiguration.class })
 public class KafkaConfiguration {
+    private final Logger log = LoggerFactory.getLogger(KafkaConfiguration.class);
 
     @Autowired
-
     KafkaeventRepository kafkaeventRepository;
 
     @Autowired
@@ -33,6 +36,37 @@ public class KafkaConfiguration {
     public KafkaConfiguration(ApplicationProperties applicationProperties) {
         kafkaConsumerPropsMap = applicationProperties.getKafkaConsumer();
         kafkaProducerPropsMap = applicationProperties.getKafkaProducer();
+/*
+        for(String key : kafkaConsumerPropsMap.keySet()) {
+            log.info("key: " + key + ", value: " + kafkaConsumerPropsMap.get(key));
+        }
+*/
+
+        if(System.getProperty("bootstrap.servers") != null) {
+            String bootstrapServers = System.getProperty("bootstrap.servers");
+            kafkaConsumerPropsMap.put("bootstrap.servers", bootstrapServers);
+        }
+        if(System.getProperty("topic") != null) {
+            String topic = System.getProperty("topic");
+            kafkaConsumerPropsMap.put("topic", topic);
+        }
+        if(System.getProperty("partitions") != null) {
+            String partitions = System.getProperty("partitions");
+            kafkaConsumerPropsMap.put("partitions", partitions);
+        }
+        if(System.getProperty("threads") != null) {
+            String threads = System.getProperty("threads");
+            kafkaConsumerPropsMap.put("threads", threads);
+        }
+        if(System.getProperty("max.count") != null) {
+            String maxCount = System.getProperty("max.count");
+            kafkaConsumerPropsMap.put("max.count", maxCount);
+        }
+        if(System.getProperty("filter") != null) {
+            String filter = System.getProperty("filter");
+            kafkaConsumerPropsMap.put("filter", filter);
+        }
+
     }
 
     @Bean
@@ -66,7 +100,8 @@ public class KafkaConfiguration {
 
     @Bean
     LensKafkaProducer lensKafkaProducer() {
-        LensKafkaProducer lensKafkaProducer = new LensKafkaProducer(kafkaProducerPropsMap);
+        //LensKafkaProducer lensKafkaProducer = new LensKafkaProducer(kafkaProducerPropsMap);
+        LensKafkaProducer lensKafkaProducer = new LensKafkaProducer();
         return lensKafkaProducer;
     }
 

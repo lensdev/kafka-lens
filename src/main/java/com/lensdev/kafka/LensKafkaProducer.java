@@ -38,6 +38,8 @@ public class LensKafkaProducer {
         producer = new KafkaProducer<String, String>(properties);
     }
 
+    public LensKafkaProducer() {}
+
     public Kafkaevent publish(Kafkaevent kafkaevent) {
         try {
             producer.send(new ProducerRecord<String, String>(topic, kafkaevent.getKafkakey(), kafkaevent.getBody()) ).get();

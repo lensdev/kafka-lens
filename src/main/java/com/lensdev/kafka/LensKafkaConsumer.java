@@ -27,14 +27,24 @@ public class LensKafkaConsumer implements Runnable {
     KafkaeventRepository repository;
     KafkaeventSearchRepository kafkaeventSearchRepository;
     private static ZoneId ZONE = ZoneId.systemDefault();
+    private int maxCount;
+    private int count = 0;
+    private String filter;
 
     public LensKafkaConsumer(Map<String, String> propMap, KafkaeventRepository repository, KafkaeventSearchRepository kafkaeventSearchRepository) {
         this.repository = repository;
         this.kafkaeventSearchRepository = kafkaeventSearchRepository;
         String topic = propMap.get("topic");
+        this.maxCount = Integer.parseInt(propMap.get("max.count"));
+        this.filter = propMap.get("filter");
 
         Properties properties = new Properties();
         properties.putAll(propMap);
+/*
+        for(Object key : properties.keySet()) {
+            logger.info("prop key: " + key + ", prop value: " + properties.getProperty(key.toString()));
+        }
+*/
         consumer = new KafkaConsumer<>(properties);
 
         //consumer.subscribe(Arrays.asList(topic));
@@ -50,13 +60,16 @@ public class LensKafkaConsumer implements Runnable {
     }
 
     public void run() {
+
         while (true) {
             try {
-                ConsumerRecords<String, String> records = consumer.poll(1000);
+                ConsumerRecords<String, String> records = consumer.poll(1);
                 //Thread.sleep(1000L);
                 if(records.count() > 0) {
                     for (ConsumerRecord<String, String> record : records) {
-                        if(record.value().contains("orders-lookup")) {
+                        this.count++;
+                        String filterRegex = (this.filter != null) ? ".*" + this.filter + ".*" : ".*";
+                        if(record.value().matches(filterRegex)) {
                             logger.info("Received message: key: {}, value: {}", record.key(), record.value());
                             List<Kafkaevent> kafkaeventList = repository.findByKafkakey(record.key());
                             if(kafkaeventList != null && kafkaeventList.size() > 0) {
@@ -78,6 +91,7 @@ public class LensKafkaConsumer implements Runnable {
             } catch (Exception e) {
                 logger.error("Error consuming message", e);
             }
+            if(this.count >= this.maxCount) { break; }
         }
     }
 }

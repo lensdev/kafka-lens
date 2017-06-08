@@ -8,58 +8,14 @@ This is a handy tool for Kafka. It has the following prominent features -
 # Requirements
 * Java 8
 * Maven 3+
-* Local MySql db - Create an admin user and a schema.
 
 # How to use the tool
 
 # Setup
-## Run a local Kafka cluster
+## Run a local Kafka cluster or point to an existing cluster
+### Refer to this document for creating a local cluster
 https://kafka.apache.org/documentation/#quickstart
 
-## Run a local MySql server
-https://dev.mysql.com/doc/mysql-getting-started/en/
-
-Start MySql and create a new database called kafka
-
-## Edit the config file
-Edit **src/main/resources/config/application-dev.yml** file
-
-## MySql DB
-**Edit the following portion**
-```
-        url: jdbc:mysql://localhost:3306/kafka2?useUnicode=true&characterEncoding=utf8&useSSL=false
-        username: kafka2
-        password: kafka2
-```
-## Kafka Consumer Details
-**Edit the following portion**
-```
-    kafkaConsumer:
-        "[bootstrap.servers]": localhost:9092
-        "[group.id]": test-1001
-        "[enable.auto.commit]": false
-        "[auto.commit.interval.ms]": 1000
-        "[key.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
-        "[value.deserializer]": org.apache.kafka.common.serialization.StringDeserializer
-        "[topic]": test
-        "[partitions]": 1
-        "[threads]": 1
-```
-
-## Kafka Producer Details
-**Edit the following portion**
-```
-    kafkaProducer:
-        "[bootstrap.servers]": localhost:9092
-        "[acks]": 1
-        "[retries]": 0
-        "[batch.size]": 16384
-        "[linger.ms]": 1
-        "[buffer.memory]": 33554432
-        "[key.serializer]": org.apache.kafka.common.serialization.StringSerializer
-        "[value.serializer]": org.apache.kafka.common.serialization.StringSerializer
-        "[topic]": test
-```
 
 ---
 
@@ -67,7 +23,38 @@ Edit **src/main/resources/config/application-dev.yml** file
 **Just run the default maven goal**
 
 ```
-./mvnw
+Option 1
+-------------------
+The easiest way is to open the project in an IDE
+Run the main class - KafkalensApp
+use the following vm options (customize based on your needs)
+-Dbootstrap.servers=dal-kafka-broker00-cp.prod.walmart.com:9092,dal-kafka-broker01-cp.prod.walmart.com:9092,dal-kafka-broker02-cp.prod.walmart.com:9092  -Dtopic=limo_offer_ingestion_prod  -Dpartitions=10  -Dthreads=1  -Dmax.count=10
+Run 
+KafkalensApp
+
+Option 2
+--------------------------
+Do this from command line.
+go the directory where you cloned the project
+
+./mvnw -DskipTests -Dbootstrap.servers=dal-kafka-broker00-cp.prod.walmart.com:9092,dal-kafka-broker01-cp.prod.walmart.com:9092,dal-kafka-broker02-cp.prod.walmart.com:9092  -Dtopic=limo_offer_ingestion_prod  -Dpartitions=10  -Dthreads=1  -Dmax.count=10
+
+Adjust the parameters based on your requirements
+
+Option 3
+----------------------------------
+OR you can also run the war file.
+clone the repo.
+cd <kafka-lens dir>
+
+-- Generate the runnable war
+mvn -DskipTests clean install
+
+JAVA_OPTS="-Dbootstrap.servers=dal-kafka-broker00-cp.prod.walmart.com:9092,dal-kafka-broker01-cp.prod.walmart.com:9092,dal-kafka-broker02-cp.prod.walmart.com:9092  -Dtopic=limo_offer_ingestion_prod  -Dpartitions=10  -Dthreads=1  -Dmax.count=10"
+./target/kafka-lens-0.0.1-SNAPSHOT.war
+
+unset JAVA_OPTS
+
 ```
 ---
 

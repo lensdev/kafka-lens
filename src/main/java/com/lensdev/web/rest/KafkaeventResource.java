@@ -113,6 +113,7 @@ public class KafkaeventResource {
         throws URISyntaxException {
         log.debug("REST request to get a page of Kafkaevents");
         Page<Kafkaevent> page = kafkaeventRepository.findAll(pageable);
+        //Page<Kafkaevent> page = kafkaeventSearchRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/kafkaevents");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -128,6 +129,7 @@ public class KafkaeventResource {
     public ResponseEntity<Kafkaevent> getKafkaevent(@PathVariable Long id) {
         log.debug("REST request to get Kafkaevent : {}", id);
         Kafkaevent kafkaevent = kafkaeventRepository.findOne(id);
+        //Kafkaevent kafkaevent = kafkaeventSearchRepository.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(kafkaevent));
     }
 

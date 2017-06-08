@@ -18,7 +18,7 @@
         Added the entity Kafkaevent.
     -->
     <changeSet id="20170324052407-1" author="jhipster">
-        <dropTable cascadeConstraints="true" tableName="kafkaevent" />
+        <!--<dropTable cascadeConstraints="true" tableName="kafkaevent" />-->
         <createTable tableName="kafkaevent">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -45,7 +45,7 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="kafkaevent" columnName="eventtime" columnDataType="datetime"/>
+        <!-- <dropDefaultValue tableName="kafkaevent" columnName="eventtime" columnDataType="datetime"/> -->
 
     </changeSet>
 </databaseChangeLog>

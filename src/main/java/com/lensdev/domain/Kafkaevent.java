@@ -35,6 +35,7 @@ public class Kafkaevent implements Serializable {
     private Long koffset;
 
     @Column(name = "body")
+    @Lob
     private String body;
 
     @Column(name = "eventtime")
